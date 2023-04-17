@@ -13,6 +13,14 @@ Projectalyzer is a command-line tool that analyzes the contents of a software pr
 
 - `--project`: The path to the software project directory. (Required)
 
+Projectalyzer has the following optional arguments:
+
+- `--prefix`: The prefix prompt to add to the compressed output. Defaults to "This is compressed text, in your own language. You should be able to decompress it because it's in your language. Here's what to decompress:".
+- `--suffix`: The suffix prompt to add to the compressed output. Defaults to "Explain the decompressed content.".
+- `--model`: The OpenAI language model to use for compression. Defaults to "gpt-3.5-turbo".
+- `--temperature`: The temperature setting to use for the language model. Defaults to 0.3. (less creates larger but more detailed compressions)
+- `--excepted_filetypes`: A list of file extensions to exclude from compression. Defaults to [".pdf", ".exe", ".xlsx", ".pyc", ".txt", ".png"].
+
 ## Environment Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key. (Required)
