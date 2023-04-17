@@ -20,7 +20,8 @@ Projectalyzer works in the following way:
 2. Create a copy of the `.env.template` file named `.env` and replace `<your_api_key_here>` with your OpenAI API key.
 3. Navigate to the project directory in the terminal.
 4. Run the command `python projectalyzer.py --project /path/to/project`.
-5. A textfile `'compressed_project_prompt.txt'` with the compressed project, as prompt is created in the projectalyzer directory.
+5. A textfile `compressed_project_prompt.txt` with the compressed project, as prompt is created in the projectalyzer directory.
+6. Use the content of `compressed_project_prompt.txt` as first prompt to add all necessary project/directory info for the GPT Agent to work.
 
 ## Arguments
 
