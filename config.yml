@@ -1,0 +1,16 @@
+ignored_folders:
+  - .history
+  - .git
+  - __pycache__
+
+ignored_files:
+  - .env
+  - old_projectanalyzer.py
+
+ignored_extensions:
+  - .pdf
+  - .exe
+  - .xlsx
+  - .pyc
+  - .txt
+  - .png

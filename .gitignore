@@ -1,3 +1,4 @@
 .history/*
 .env
 compressed_project_prompt.txt
+get_folder_structure.py
