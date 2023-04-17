@@ -1,2 +1,7 @@
 .history/*
+<<<<<<< HEAD
 .env
+=======
+.env
+compressed_project_prompt.txt
+>>>>>>> parent of 363153b... removed demo_mov
