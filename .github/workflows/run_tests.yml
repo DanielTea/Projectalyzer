@@ -31,3 +31,5 @@ jobs:
     - name: Run tests
       run: |
         python -m unittest discover tests
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

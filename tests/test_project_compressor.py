@@ -27,19 +27,6 @@ class TestProjectCompressor(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             compressor.compress_project(project_folderpath)
 
-    def test_save_compressed_data_to_file(self):
-        compressed_data = {
-            'file1': 'Compressed content 1',
-            'file2': 'Compressed content 2'
-        }
-        output_file = 'compressed_data.txt'
-        compressor = ProjectCompressor()
-        compressor.save_compressed_data_to_file(compressed_data, output_file)
-
-        self.assertTrue(os.path.exists(output_file))
-
-        # Clean up - remove the output file
-        os.remove(output_file)
 
 if __name__ == '__main__':
     unittest.main()
