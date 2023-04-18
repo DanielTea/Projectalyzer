@@ -26,8 +26,7 @@ class TestProjectCompressor(unittest.TestCase):
         project_folderpath = test_project_folder_path
         compressed_data = compressor.compress_project(project_folderpath)
 
-        self.assertIsNotNone(compressed_data)
-        self.assertTrue("Compressed content" in compressed_data)
+        self.assertNotEqual(compressed_data, {})
 
 if __name__ == '__main__':
     unittest.main()

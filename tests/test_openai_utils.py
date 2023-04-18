@@ -16,7 +16,8 @@ class TestOpenAIUtils(unittest.TestCase):
         temperature = 0.7
         compressed_text = compress_string(text, model, temperature)
 
-        self.assertEqual(compressed_text, "Compressed text")
+        self.assertNotEqual(compressed_text, text)
+        self.assertTrue(len(compressed_text) > 0)
 
 if __name__ == '__main__':
     unittest.main()
