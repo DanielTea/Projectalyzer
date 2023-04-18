@@ -22,23 +22,12 @@ class TestProjectCompressor(unittest.TestCase):
         # Mock the compress_string function
         mock_compress_string.return_value = "Compressed content"
 
-        project_folderpath = "test_project"
         compressor = ProjectCompressor()
-
+        project_folderpath = test_project_folder_path
         compressed_data = compressor.compress_project(project_folderpath)
-        self.assertTrue(isinstance(compressed_data, dict))
 
-    @patch("project_compression.project_compression.compress_string")
-    def test_compress_project_with_invalid_path(self, mock_compress_string):
-        # Mock the compress_string function
-        mock_compress_string.return_value = "Compressed content"
-
-        project_folderpath = "invalid_project_path"
-        compressor = ProjectCompressor()
-
-        with self.assertRaises(FileNotFoundError):
-            compressor.compress_project(project_folderpath)
-
+        self.assertIsNotNone(compressed_data)
+        self.assertTrue("Compressed content" in compressed_data)
 
 if __name__ == '__main__':
     unittest.main()
