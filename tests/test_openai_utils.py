@@ -13,7 +13,7 @@ class TestOpenAIUtils(unittest.TestCase):
 
         text = "This is a sample text."
         model = 'gpt-3.5-turbo'
-        temperature = 0.7
+        temperature = 0.4
         compressed_text = compress_string(text, model, temperature)
 
         self.assertNotEqual(compressed_text, text)

@@ -1,0 +1,34 @@
+This is compressed text, in your own language. You should be able to decompress it because it's in your language. Here's what to decompress:
+This is the compressed folder and file structure of the project: llmProjectalyzer/LICENSE tests/test_openai_utils.py tests/test_project_compressor.py tests/test_data/test_project/file2.py tests/test_data/test_project/file1.py tests/__init__.py tests/test_prompt_utils.py tests/test_token_estimator.py readme.md .env.template setup.py .gitignore .github/workflows/run_tests.yml project_compression/token_estimator.py project_compression/project_compression.py project_compression/__init__.py project_compression/openai_utils.py project_compression/prompt_utils.py project_compression/file_utils.py config.yml main.py
+This is the compressed content of /Users/danieltremer/Documents/llmProjectalyzer/project_compression/prompt_utils.py with an estimated decompressed token length of 906: def get_folder_structure(folder_path, ignored_folders=[], ignored_files=[], ignored_extensions=[], prefix=''):
+    folder_structure=f'{prefix}{os.path.basename(folder_path)}/\n';prefix+='|   '
+    for item in os.listdir(folder_path):
+        item_path=os.path.join(folder_path,item)
+        if os.path.isfile(item_path):
+            if item.endswith(tuple(ignored_extensions)) or item in ignored_files:continue
+            folder_structure+=f'{prefix}|-- {item}\n'
+        elif os.path.isdir(item_path):
+            if item in ignored_folders:continue
+            folder_structure+=get_folder_structure(item_path,ignored_folders=ignored_folders,ignored_files=ignored_files,ignored_extensions=ignored_extensions,prefix=prefix)
+    return folder_structure
+
+def add_prefix_prompt(prompt_template,prefix,suffix):
+    prefix_prompt=f"{prefix}\n\n";suffix_prompt=f"\n\n{suffix}"
+    return prefix_prompt+prompt_template.strip()+suffix_prompt
+
+def compress_data_with_chunking(compressed_data,model,temperature,max_content_tokens):
+    num_tokens=estimate_tokens(compressed_data)
+    if num_tokens>max_content_tokens:
+        compressed_chunks=[];current_chunk=''
+        for line in compressed_data.split('\n'):
+            line_tokens=estimate_tokens(line)
+            if len(current_chunk)+line_tokens>max_content_tokens:
+                compressed_chunks.append(compress_string(current_chunk,model,temperature));current_chunk=line
+            else:current_chunk+='\n'+line
+        if current_chunk:compressed_chunks.append(compress_string(current_chunk,model,temperature))
+        compressed_data='\n'.join(compressed_chunks)
+    else:compressed_data=compress_string(compressed_data,model,temperature)
+    return compressed_data
+This is the compressed content of /Users/danieltremer/Documents/llmProjectalyzer/project_compression/file_utils.py with an estimated decompressed token length of 198: from project_compression.token_estimator import estimate_tokens;def read_file_content(file_path, encoding='utf-8'):with open(file_path, 'r', encoding=encoding) as f:content = f.read();return content;def save_chunks_to_files(compressed_data, base_filename='compressed_project_chunk'):for i, chunk in enumerate(compressed_data):with open(f"{base_filename}_{i}.txt", "w") as f:f.write(chunk);return len(compressed_data)
+This is the compressed content of /Users/danieltremer/Documents/llmProjectalyzer/project_compression/file_utils.py with an estimated decompressed token length of 198: from project_compression.token_estimator import estimate_tokens;def read_file_content(file_path, encoding='utf-8'):with open(file_path, 'r', encoding=encoding) as f:content = f.read();return content;def save_chunks_to_files(compressed_data, base_filename='compressed_project_chunk'):for i, chunk in enumerate(compressed_data):with open(f"{base_filename}_{i}.txt", "w") as f:f.write(chunk);return len(compressed_data)
+Explain the decompressed content.

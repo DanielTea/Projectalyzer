@@ -2,14 +2,15 @@ import os
 from project_compression.token_estimator import estimate_tokens
 from project_compression.openai_utils import compress_string
 
-def get_folder_structure(folder_path, ignored_folders=[], ignored_files=[], prefix=''):
+def get_folder_structure(folder_path, ignored_folders=[], ignored_files=[], ignored_extensions=[], prefix=''):
     """
     Returns a text representation of the folder structure for a given directory path.
 
     Args:
     - folder_path: A string representing the path to the directory.
     - ignored_folders: A list of folder names to ignore.
-    - ignored_files: A list of file names or extensions to ignore.
+    - ignored_files: A list of file names to ignore.
+    - ignored_extensions: A list of file extensions to ignore.
     - prefix: A string representing the prefix to add to the folder structure text.
 
     Returns:
@@ -21,13 +22,13 @@ def get_folder_structure(folder_path, ignored_folders=[], ignored_files=[], pref
     for item in os.listdir(folder_path):
         item_path = os.path.join(folder_path, item)
         if os.path.isfile(item_path):
-            if any([item.endswith(ext) or item == name for ext in ignored_files for name in ignored_files]):
+            if item.endswith(tuple(ignored_extensions)) or item in ignored_files:
                 continue
             folder_structure += f'{prefix}|-- {item}\n'
         elif os.path.isdir(item_path):
             if item in ignored_folders:
                 continue
-            folder_structure += get_folder_structure(item_path, ignored_folders=ignored_folders, ignored_files=ignored_files, prefix=prefix)
+            folder_structure += get_folder_structure(item_path, ignored_folders=ignored_folders, ignored_files=ignored_files, ignored_extensions=ignored_extensions, prefix=prefix)
             
     return folder_structure
 
