@@ -6,11 +6,14 @@ class TestTokenEstimator(unittest.TestCase):
     def test_estimate_tokens(self):
         text = "This is a sample text."
         method = "max"
-
         estimated_tokens = estimate_tokens(text, method)
+        self.assertTrue(isinstance(estimated_tokens, int))
 
-        # Perform tests on the estimated_tokens
-        # Add your assertions here to test if the token estimation was successful
+    def test_estimate_tokens_invalid_method(self):
+        text = "This is a sample text."
+        method = "invalid_method"
+        result = estimate_tokens(text, method)
+        self.assertEqual(result, "Invalid method. Use 'average', 'words', 'chars', 'max', or 'min'.")
 
 if __name__ == '__main__':
     unittest.main()
