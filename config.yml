@@ -13,3 +13,4 @@ ignored_extensions:
   - .xlsx
   - .pyc
   - .png
+  - .txt
