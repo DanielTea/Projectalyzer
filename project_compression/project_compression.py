@@ -5,10 +5,12 @@ from .file_utils import read_file_content
 from .prompt_utils import add_prefix_prompt, get_folder_structure
 
 class ProjectCompressor:
-    def __init__(self, model='gpt-3.5-turbo', temperature=0.7, max_content_tokens=4000):
+    def __init__(self, model='gpt-3.5-turbo', temperature=0.7, max_content_tokens=4000, prefix="", suffix=""):
         self.model = model
         self.temperature = temperature
         self.max_content_tokens = max_content_tokens
+        self.prefix = prefix
+        self.suffix = suffix
 
     def compress_project(self, project_folderpath, ignored_folders=[], ignored_files=[], ignored_extensions=[]):
         print(f"Compressing project at {project_folderpath}...")
@@ -42,7 +44,8 @@ class ProjectCompressor:
                 estimated_tokens = estimate_tokens(content)
 
                 if estimated_tokens > self.max_content_tokens:
-                    content = "FILE TOO LARGE TO BE ANALYSED. ASK FOR MORE INFORMATION WHEN CONTENT OF FILE IS NEEDED."
+                    content = "COMPRESSION OUTPUT: FILE TOO LARGE TO BE ANALYSED. ASK FOR MORE INFORMATION WHEN CONTENT OF FILE IS NEEDED."
+                    print("FILE TOO MANY TOKEN TO BE ANALYSED. IGNORED.")
 
                 comp_content = compress_string(content, self.model, self.temperature)
                 compressed_content[file_path] = comp_content
@@ -50,16 +53,24 @@ class ProjectCompressor:
                 print(f"{file_path} compressed successfully!")
 
 
-        prompt_template = f"""
-        This is the compressed folder and file structure of the project: {comp_folder_structure}
-        """
-
+        prompt_template = f"This is the compressed folder and file structure of the project: {comp_folder_structure}\n"
+        
+        chunks = []
+        current_chunk = ''
         for file_path, comp_content in compressed_content.items():
             estimated_tokens = estimate_tokens(read_file_content(file_path))
-            prompt_template += f"""
-            This is the compressed content of {file_path} with an estimated decompressed token length of {estimated_tokens}: {comp_content}
-            """
+            line = f"This is the compressed content of {file_path} with an estimated decompressed token length of {estimated_tokens}: {comp_content}\n"
+            tmp_chunk = self.prefix +"\n"+ prompt_template + current_chunk + line + self.suffix
+            if estimate_tokens(tmp_chunk) > self.max_content_tokens:
+                chunks.append(tmp_chunk)
+                current_chunk = ''
+
+            current_chunk += line
+        
+        if current_chunk:
+            final_chunk = self.prefix +"\n"+ prompt_template + current_chunk + line + self.suffix
+            chunks.append(final_chunk)
 
         print("Project compressed successfully!")
-
-        return prompt_template
+        
+        return chunks

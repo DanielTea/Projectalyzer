@@ -12,5 +12,4 @@ ignored_extensions:
   - .exe
   - .xlsx
   - .pyc
-  - .txt
   - .png
