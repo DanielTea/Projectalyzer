@@ -86,8 +86,10 @@ class ProjectCompressor:
             final_chunk = self.prefix +"\n"+ prompt_template + current_chunk + line + self.suffix
             chunks.append(final_chunk)
 
-        for i, chunk in iter(chunks):
+        for i, chunk in enumerate(chunks):
             page_string = f"THIS IS PART {i} OF {len(chunks)}.\n"
+            if isinstance(chunk, tuple):
+                chunk = chunk[0]
             chunks[i] = page_string + chunk
 
         print("Project compressed successfully!")
