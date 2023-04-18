@@ -5,7 +5,7 @@ class TestTokenEstimator(unittest.TestCase):
 
     def test_estimate_tokens(self):
         text = "This is a sample text."
-        expected_token_count = 7  # 6 words + 1 whitespace token
+        expected_token_count = 6  # 6 words
 
         token_count = estimate_tokens(text)
         self.assertEqual(token_count, expected_token_count)

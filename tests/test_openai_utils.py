@@ -8,7 +8,8 @@ class TestOpenAIUtils(unittest.TestCase):
     @patch("project_compression.openai_utils.openai.Completion.create")
     def test_compress_string(self, mock_completion_create):
         # Mock the response from the OpenAI API
-        mock_completion_create.return_value.choices = [{"text": "Compressed text"}]
+        mock_completion_create.return_value.choices = [{"text": "Ths smp txt."}]
+
 
         text = "This is a sample text."
         model = 'gpt-3.5-turbo'
